@@ -1,0 +1,224 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom Sidebar Animations - Much Slower for Smooth Experience */
+@layer components {
+  /* Sidebar container animation - Very slow and smooth */
+  .sidebar-container {
+    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform-origin: left center;
+  }
+
+  /* Sidebar content animation - Slower fade */
+  .sidebar-content {
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Main content area animation - Slow and smooth */
+  .sidebar-inset {
+    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Sidebar trigger button animation - Moderate speed */
+  .sidebar-trigger {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .sidebar-trigger:hover {
+    transform: scale(1.1);
+  }
+
+  /* Sidebar overlay animation for mobile - Slower */
+  .sidebar-overlay {
+    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Menu item animations - Slower hover effects */
+  .sidebar-menu-item {
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .sidebar-menu-item:hover {
+    transform: translateX(8px);
+  }
+
+  /* Fade in animation for sidebar content - Much slower */
+  .sidebar-fade-in {
+    animation: fadeInSlide 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  @keyframes fadeInSlide {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Slide animation for sidebar - Very slow */
+  .sidebar-slide {
+    animation: slideIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  /* Content shift animation - Very slow and smooth */
+  .content-shift {
+    transition: margin-left 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Staggered menu item animations */
+  .sidebar-menu-item:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+
+  .sidebar-menu-item:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .sidebar-menu-item:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  .sidebar-menu-item:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+
+  .sidebar-menu-item:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+
+  /* Enhanced menu item entrance animation */
+  .menu-item-entrance {
+    animation: menuItemSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  @keyframes menuItemSlideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+  }
+}
+
+/* Enhanced hover effects with slower transitions */
+@layer utilities {
+  .hover-lift {
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-3px);
+  }
+
+  .smooth-transition {
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Extra slow transition for special elements */
+  .extra-smooth {
+    transition: all 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
+/* Special sidebar width transitions */
+@layer components {
+  /* Override default sidebar transitions with slower ones */
+  [data-sidebar="sidebar"] {
+    transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  }
+
+  [data-sidebar="sidebar"][data-state="collapsed"] {
+    transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  }
+
+  [data-sidebar="sidebar"][data-state="expanded"] {
+    transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  }
+
+  /* Sidebar inset content area slow transition */
+  [data-sidebar="inset"] {
+    transition: margin-left 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  }
+}
