@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator"
 import { Eye, EyeOff, Mail, Lock, Sparkles, ArrowRight, Github, Chrome } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { signInWithEmail, signInWithGoogle } from "@/lib/firebase";
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false)
@@ -17,21 +18,38 @@ export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
+  const [error, setError] = useState("");
+
   const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    // Simulate authentication
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-    // Redirect to dashboard
-    router.push("/dashboard")
-  }
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+    try {
+      await signInWithEmail(email, password);
+      router.push("/dashboard");
+    } catch (err: any) {
+      setError(err.message || "Failed to sign in");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSocialSignIn = async (provider: string) => {
-    setIsLoading(true)
-    // Simulate social authentication
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    router.push("/dashboard")
-  }
+    setIsLoading(true);
+    setError("");
+    try {
+      if (provider === "google") {
+        await signInWithGoogle();
+        router.push("/dashboard");
+      } else {
+        setError("Only Google sign-in is implemented.");
+      }
+    } catch (err: any) {
+      setError(err.message || `Failed to sign in with ${provider}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
         return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
@@ -86,6 +104,9 @@ export default function SignIn() {
               </div>
               </div>
             {/* Email/Password Form */}
+            {error && (
+              <div className="text-red-600 text-sm text-center font-medium py-2">{error}</div>
+            )}
             <form onSubmit={handleSignIn} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium text-gray-700">

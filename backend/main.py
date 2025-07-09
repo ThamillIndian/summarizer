@@ -4,6 +4,11 @@ import os
 from pathlib import Path
 import subprocess
 from fastapi.responses import FileResponse
+import requests
+from fastapi import HTTPException
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
@@ -37,6 +42,41 @@ def extract_audio(input_path: Path, output_path: Path):
 @app.get("/")
 def read_root():
     return {"message": "Arrr! The FastAPI backend be runnin'!"}
+
+@app.post("/transcribe")
+async def transcribe_audio(file: UploadFile = File(...)):
+    """
+    Accepts an audio file, sends it to Sarvam's Speech-to-Text API, and returns the transcript.
+    """
+    # Save the uploaded file temporarily
+    temp_path = UPLOAD_DIR / file.filename
+    with open(temp_path, "wb") as f:
+        f.write(await file.read())
+
+    # Prepare request to Sarvam API
+    sarvam_api_key = os.getenv("SARVAM_API_KEY")
+    if not sarvam_api_key:
+        raise HTTPException(status_code=500, detail="Sarvam API key not configured.")
+
+    sarvam_stt_endpoint = os.getenv("SARVAM_STT_ENDPOINT", "https://api.sarvam.ai/speech-to-text")  # Replace with actual endpoint if different
+    files = {"file": (file.filename, open(temp_path, "rb"), file.content_type)}
+    headers = {"Authorization": f"Bearer {sarvam_api_key}"}
+
+    try:
+        response = requests.post(sarvam_stt_endpoint, headers=headers, files=files, timeout=120)
+        response.raise_for_status()
+        result = response.json()
+        transcript = result.get("transcript") or result.get("text") or result
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Sarvam STT API error: {e}")
+    finally:
+        # Clean up the temp file
+        try:
+            os.remove(temp_path)
+        except Exception:
+            pass
+
+    return {"transcript": transcript}
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
