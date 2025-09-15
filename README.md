@@ -14,14 +14,37 @@ To install the Summarizer, clone the repository and install the required depende
 ```bash
 git clone https://github.com/ThamillIndian/summarizer.git
 cd summarizer
+```
+
+### Backend Setup
+Create and activate a Python virtual environment, then install backend dependencies:
+
+```bash
+python -m venv venv
+source venv/bin/activate   # On Windows use: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## Usage
-After installation, you can start the summarization tool by running:
+### Frontend Setup
+Navigate to the frontend directory and install dependencies:
 
 ```bash
-python summarizer.py
+cd frontend
+npm install
+```
+
+## Usage
+
+### Backend
+Start the backend server with:
+```bash
+uvicorn app.main:app --reload
+```
+
+### Frontend
+Start the frontend app with:
+```bash
+npm start
 ```
 
 ## Contributing
