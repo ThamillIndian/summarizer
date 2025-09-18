@@ -47,5 +47,3 @@ Start the frontend app with:
 npm start
 ```
 
-## License
-This project is licensed under the MIT License.
